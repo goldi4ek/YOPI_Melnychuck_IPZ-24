@@ -7,10 +7,9 @@ import sympy as sp
 res = open("result.txt", "w+")
 
 
-def connect_txt():
+def connect_txt(nameoffile):
     inputdata = []
-    # nameoffile = input()
-    input = open('input_10.txt')
+    input = open(nameoffile)
     input.seek(1)
     for line in input:
         inputdata.append(input.read(3))
@@ -54,7 +53,6 @@ def diffusiondiagram(data):
 
     plt.scatter(infoX, infoY, c='coral', marker="o")
     plt.grid()
-    plt.show()
 
 
 def middleXY(data):
@@ -105,6 +103,12 @@ def regretionline(data):
     lineX = sp.solve(line, y)
     lineY = sp.solve(line, x)
 
+    x = np.linspace(0, 9)
+
+    y = b*(x - middlex)+middley
+
+    plt.plot(x,y)
+
     print("\nY = " + str(lineX))
     print("X = " + str(lineY))
 
@@ -142,7 +146,8 @@ def trand(data):
         print("no trand")
 
 
-data = connect_txt()
+nameoffile = input("Please import name: \n")
+data = connect_txt(nameoffile)
 trand(data)
 data = sorted(data)
 print(data)
@@ -155,10 +160,10 @@ middleXY(data)
 
 covariance = covariance(data)
 gravitycenter = gravitycenter(data)
-print("\nGravitycenter = "+ str(gravitycenter))
+print("\nGravitycenter = " + str(gravitycenter))
 print("\nCovariance = " + str(covariance))
 
-res.write("\n\nGravitycenter = "+ str(gravitycenter))
+res.write("\n\nGravitycenter = " + str(gravitycenter))
 res.write("\n\nCovariance = " + str(covariance))
 
 
@@ -166,5 +171,4 @@ regretionline(data)
 print("\nCorrelation = " + str(correliation(data)))
 
 res.write("\n\nCorrelation = " + str(correliation(data)))
-
-
+plt.show()
